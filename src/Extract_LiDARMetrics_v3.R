@@ -35,7 +35,8 @@ Transect= as.numeric(Transect)
 Transect=c(123)
 
 dpcloudfea_exp_df <- data.frame(matrix(ncol = 3, nrow = 0))
-x <- c("Transect", "Transect_sec","propoflowveg","edge_dens_higveg","total_edge_low","total_edge_med","total_edge_high","nofpatches_low","nofpatches_med","nofpatches_high")
+x <- c("Transect", "Transect_sec","propoflowveg","edge_dens_higveg","total_edge_low","total_edge_med","total_edge_high","nofpatches_low","nofpatches_med","nofpatches_high",
+       "nofret_pheightlay_02_1","nofret_pheightlay_1_5","nofret_pheightlay_5_20")
 
 colnames(dpcloudfea_exp_df) <- x
 
@@ -66,6 +67,12 @@ for (i in Transect) {
         
         coordinates(butterflysp_df_sel_sel)=~x+y
         proj4string(butterflysp_df_sel_sel)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
+        
+        # corrected height layers
+        
+        nofret_pheightlay_02_1=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z>0.2 & las_norm@data$Z<1)])/length(las_norm@data$Z))*100
+        nofret_pheightlay_1_5=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z>1 & las_norm@data$Z<5)])/length(las_norm@data$Z))*100
+        nofret_pheightlay_5_20=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z>5 & las_norm@data$Z<20)])/length(las_norm@data$Z))*100
         
         
         # landscape metrics
@@ -105,7 +112,10 @@ for (i in Transect) {
                                   total_edge_high=total_edge_high,
                                   nofpatches_low=nofpatches_low,
                                   nofpatches_med=nofpatches_med,
-                                  nofpatches_high=nofpatches_high)))
+                                  nofpatches_high=nofpatches_high,
+                                  nofret_pheightlay_02_1=nofret_pheightlay_02_1,
+                                  nofret_pheightlay_1_5=nofret_pheightlay_1_5,
+                                  nofret_pheightlay_5_20=nofret_pheightlay_5_20)))
         
         dpcloudfea_exp_df <- rbind(dpcloudfea_exp_df, newline)
         
