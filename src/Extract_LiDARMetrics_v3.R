@@ -14,8 +14,8 @@ library(e1071)
 library(landscapemetrics)
 
 # Set working dirctory
-workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
-#workingdirectory="D:/Reinier/Reinier_output/"
+#workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
+workingdirectory="D:/Reinier/Reinier_output/"
 
 setwd(workingdirectory)
 radii=25
@@ -33,7 +33,7 @@ butterflysp_df_gr <- butterflysp_df %>%
 # Direct point cloud based metrics
 Transect <- as.vector(butterflysp_df_gr$Transect)
 Transect= as.numeric(Transect)
-Transect=c(123)
+#Transect=c(123)
 
 dpcloudfea_exp_df <- data.frame(matrix(ncol = 13, nrow = 0))
 x <- c("Transect", "Transect_sec","propoflowveg","class_area_low","class_area_med","class_area_high","total_edge_low","total_edge_med","total_edge_high","nofpatches_low","nofpatches_med","nofpatches_high",
@@ -134,4 +134,4 @@ for (i in Transect) {
   }
 }
 
-write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics_25m_v4.csv")
+write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics_25m_20200207.csv")
