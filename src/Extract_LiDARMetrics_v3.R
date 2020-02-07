@@ -18,7 +18,7 @@ library(landscapemetrics)
 workingdirectory="D:/Reinier/Reinier_output/"
 
 setwd(workingdirectory)
-radii=25
+radii=100
 
 butterflyspfile="transects.shp"
 
@@ -134,4 +134,4 @@ for (i in Transect) {
   }
 }
 
-write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics_25m_20200207.csv")
+write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics_100m_20200207.csv")
