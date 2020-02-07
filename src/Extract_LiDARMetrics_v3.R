@@ -18,6 +18,7 @@ workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetric
 #workingdirectory="D:/Reinier/Reinier_output/"
 
 setwd(workingdirectory)
+radii=25
 
 butterflyspfile="transects.shp"
 
@@ -34,9 +35,9 @@ Transect <- as.vector(butterflysp_df_gr$Transect)
 Transect= as.numeric(Transect)
 Transect=c(123)
 
-dpcloudfea_exp_df <- data.frame(matrix(ncol = 3, nrow = 0))
-x <- c("Transect", "Transect_sec","propoflowveg","edge_dens_higveg","total_edge_low","total_edge_med","total_edge_high","nofpatches_low","nofpatches_med","nofpatches_high",
-       "nofret_pheightlay_02_1","nofret_pheightlay_1_5","nofret_pheightlay_5_20")
+dpcloudfea_exp_df <- data.frame(matrix(ncol = 13, nrow = 0))
+x <- c("Transect", "Transect_sec","propoflowveg","class_area_low","class_area_med","class_area_high","total_edge_low","total_edge_med","total_edge_high","nofpatches_low","nofpatches_med","nofpatches_high",
+       "cohesion_low","cohesion_med","cohesion_high","nofret_pheightlay_02_1","nofret_pheightlay_1_5","nofret_pheightlay_5_20")
 
 colnames(dpcloudfea_exp_df) <- x
 
@@ -51,7 +52,7 @@ for (i in Transect) {
     
     for (j in seq(from=1,to=length(butterflysp_df_sel$x))) {
       
-      las_clip=lasclipCircle(las,butterflysp_df_sel$x[j],butterflysp_df_sel$y[j],25)
+      las_clip=lasclipCircle(las,butterflysp_df_sel$x[j],butterflysp_df_sel$y[j],radii)
       
       if ((nrow(las_clip@data[las_clip@data$Classification==1L])>0) & (nrow(las_clip@data[las_clip@data$Classification==2L])>0)) {
         
@@ -77,28 +78,32 @@ for (i in Transect) {
         
         # landscape metrics
         
-        # edge density of high vegetation (above 5 m)
-        
         height_class=reclassify(dsm, c(-Inf,1,1,1,5,2,5,Inf,3))
-        highveg=reclassify(dsm, c(-Inf,5,1, 5,Inf,2))
         
-        edge_density = sample_lsm(highveg, butterflysp_df_sel_sel,size=25,level = "landscape", metric = "ed",count_boundary = FALSE,directions = 8)
-        edge_dens_higveg=edge_density$value
+        class_area = sample_lsm(height_class, butterflysp_df_sel_sel,size=radii,level = "class", metric = "ca",count_boundary = FALSE,directions = 8)
+        class_area_low=class_area$value[1]
+        class_area_med=class_area$value[2]
+        class_area_high=class_area$value[3]
         
-        total_edge = sample_lsm(height_class, butterflysp_df_sel_sel,size=25,level = "class", metric = "te",count_boundary = FALSE,directions = 8)
+        total_edge = sample_lsm(height_class, butterflysp_df_sel_sel,size=radii,level = "class", metric = "te",count_boundary = FALSE,directions = 8)
         total_edge_low=total_edge$value[1]
         total_edge_med=total_edge$value[2]
         total_edge_high=total_edge$value[3]
         
-        nofpatches = sample_lsm(height_class, butterflysp_df_sel_sel,size=25,level = "class", metric = "np",count_boundary = FALSE,directions = 8)
+        nofpatches = sample_lsm(height_class, butterflysp_df_sel_sel,size=radii,level = "class", metric = "np",count_boundary = FALSE,directions = 8)
         nofpatches_low=nofpatches$value[1]
         nofpatches_med=nofpatches$value[2]
         nofpatches_high=nofpatches$value[3]
         
+        cohesion = sample_lsm(height_class, butterflysp_df_sel_sel,size=radii,level = "class", metric = "cohesion",count_boundary = FALSE,directions = 8)
+        cohesion_low=cohesion$value[1]
+        cohesion_med=cohesion$value[2]
+        cohesion_high=cohesion$value[3]
+        
         # proportion of low vegetation (below 1 m)
         lowveg_class=reclassify(dsm, c(-Inf,1,1,1,Inf,NA))
         
-        propoflowveg <- extract(lowveg_class,butterflysp_df_sel_sel,buffer = 25,fun=length)
+        propoflowveg <- extract(lowveg_class,butterflysp_df_sel_sel,buffer = radii,fun=length)
         
         if (is.na(propoflowveg)) {propoflowveg=0} else {propoflowveg=propoflowveg}
         
@@ -106,13 +111,18 @@ for (i in Transect) {
         
         newline <- data.frame(t(c(Transect=i,Transect_sec=paste(butterflysp_df_sel$Tr_sec[j],sep=""),
                                   propoflowveg=propoflowveg,
-                                  edge_dens_higveg=edge_dens_higveg,
+                                  class_area_low=class_area_low,
+                                  class_area_med=class_area_med,
+                                  class_area_high=class_area_high,
                                   total_edge_low=total_edge_low,
                                   total_edge_med=total_edge_med,
                                   total_edge_high=total_edge_high,
                                   nofpatches_low=nofpatches_low,
                                   nofpatches_med=nofpatches_med,
                                   nofpatches_high=nofpatches_high,
+                                  cohesion_low=cohesion_low,
+                                  cohesion_med=cohesion_med,
+                                  cohesion_high=cohesion_high,
                                   nofret_pheightlay_02_1=nofret_pheightlay_02_1,
                                   nofret_pheightlay_1_5=nofret_pheightlay_1_5,
                                   nofret_pheightlay_5_20=nofret_pheightlay_5_20)))
