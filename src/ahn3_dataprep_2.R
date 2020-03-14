@@ -1,6 +1,8 @@
 "
 @author: Zsofia Koma, UvA
 Aim: overlay butterfly transect with LiDAR (AHN3)
+
+put into QGIS wkt csv and transfer into shp
 "
 
 # Import libraries
@@ -17,11 +19,11 @@ library("gridExtra")
 library(pingr)
 
 # Set global variables
-full_path="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/ahn3/"
+full_path="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/dataprocess2/"
 #full_path="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/"
 
-areaofintfile="req_transect_250buffer.shp"
-ahnfile="ahn3.shp"
+areaofintfile="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/dataprocess2/input/req_transect_groningen_250buffer.shp"
+ahnfile="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/dataprocess2/input/ahn3.shp"
 
 setwd(full_path)
 
