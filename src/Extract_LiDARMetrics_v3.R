@@ -15,7 +15,7 @@ library(landscapemetrics)
 
 # Set working dirctory
 #workingdirectory="D:/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/lidarmetrics_calc/"
-workingdirectory="D:/Reinier/Reinier_output/"
+workingdirectory="D:/Reinier/Groningen/"
 
 setwd(workingdirectory)
 radii=100
@@ -134,4 +134,4 @@ for (i in Transect) {
   }
 }
 
-write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics_100m_20200207.csv")
+write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics_100m_20200207_Groningenreq.csv")
