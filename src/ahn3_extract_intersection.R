@@ -1,17 +1,20 @@
 "
 @author: Zsofia Koma, UvA
 Aim: Extract area of interest from AHN3 data
+
+before this you need to download the ahn tiles from the ahn3list using bash
 "
+#while read p; do curl -o ${p:62:73} "${p%?}";done < ahn3list.txt
+
 library("lidR")
 library("rgdal")
 
 # Set working dirctory
-workingdirectory="D:/Reinier/"
-#workingdirectory="C:/Koma/Sync/_Amsterdam/08_coauthor_MScProjects/Reinier/datapreprocess/ahn3/"
+workingdirectory="D:/Reinier/Groningen/"
 setwd(workingdirectory)
 
 #Import 
-areaofintfile="req_transect_250buffer.shp"
+areaofintfile="req_transect_groningen_250buffer.shp"
 areaofint=readOGR(dsn=areaofintfile)
 
 # Extract
@@ -22,6 +25,6 @@ for (i in seq(1,length(areaofint$Transect),1)){
   subset = lasclip(ctg, areaofint[areaofint$Transect==areaofint$Transect[i],])
   
   if (subset@header@PHB[["Number of point records"]]>0) {
-    writeLAS(subset,paste("C:/Reinier_output/Transect_",areaofint$Transect[i],".laz",sep=""))
+    writeLAS(subset,paste("D:/Reinier/Groningen/Transect_",areaofint$Transect[i],".laz",sep=""))
   }
 }
