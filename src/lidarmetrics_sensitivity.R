@@ -57,11 +57,12 @@ for (i in Transect) {
         #writeLAS(las_clip,paste("Transect",i,"Tr_sec",butterflysp_df_sel$Tr_sec[j],"_clip_25.laz",sep=""))
         
         las_norm=lasnormalize(las_clip, knnidw(k=10,p=2))
-        las_norm_veg=lasfilter(las_norm,Classification==1L)
+        las_norm_veg=lasfilter(las_norm,Classification==1L & Z>0.05)
+        #las_norm_veg=lasfilter(las_norm,Classification==1L)
         
         # metrics directly calculated from point cloud
         
-        nofret_pheightlay_b02=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z<0.2)])/length(las_norm@data$Z))*100
+        nofret_pheightlay_b02=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z<0.2 & las_norm@data$Z>0.05)])/length(las_norm@data$Z))*100
         nofret_pheightlay_02_1=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z<0.2 & las_norm@data$Z>1)])/length(las_norm@data$Z))*100
         nofret_pheightlay_1_5=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z<1 & las_norm@data$Z>5)])/length(las_norm@data$Z))*100
         nofret_pheightlay_5_20=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z<5 & las_norm@data$Z>20)])/length(las_norm@data$Z))*100
@@ -78,7 +79,7 @@ for (i in Transect) {
         int_sd_b1=sd(b1$Intensity)
         zkurto_b1=kurtosis(b1$Z)
         
-        pulsepen = (nrow(las_norm@data[las_norm@data$Classification==2L])/length(las_norm@data$Z))*100
+        pulsepen = (nrow(las_norm@data[las_norm@data$Classification==2L & las_norm@data$Z<0.05])/length(las_norm@data$Z))*100
         
         zkurto = kurtosis(las_norm_veg@data$Z)
         zsd = sd(las_norm_veg@data$Z)
@@ -240,4 +241,4 @@ for (i in Transect) {
   }
 }
 
-write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics_25m_v3_GroningenReq.csv")
+write.csv(dpcloudfea_exp_df,"Butterfly_lidarmetrics_25m_sens005.csv")
