@@ -11,8 +11,8 @@ library(sp)
 library(e1071)
 
 # Set working dirctory
-workingdirectory="D:/Sync/_Amsterdam/_PhD/"
-#workingdirectory="D:/Reinier/Groningen/"
+#workingdirectory="D:/Sync/_Amsterdam/_PhD/"
+workingdirectory="D:/Koma/butterfly/tiles/"
 
 setwd(workingdirectory)
 
