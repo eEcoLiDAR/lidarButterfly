@@ -63,9 +63,9 @@ for (i in Transect) {
         # metrics directly calculated from point cloud
         
         nofret_pheightlay_b02=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z<0.2 & las_norm@data$Z>0.05)])/length(las_norm@data$Z))*100
-        nofret_pheightlay_02_1=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z<0.2 & las_norm@data$Z>1)])/length(las_norm@data$Z))*100
-        nofret_pheightlay_1_5=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z<1 & las_norm@data$Z>5)])/length(las_norm@data$Z))*100
-        nofret_pheightlay_5_20=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z<5 & las_norm@data$Z>20)])/length(las_norm@data$Z))*100
+        nofret_pheightlay_02_1=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z>0.2 & las_norm@data$Z<1)])/length(las_norm@data$Z))*100
+        nofret_pheightlay_1_5=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z>1 & las_norm@data$Z<5)])/length(las_norm@data$Z))*100
+        nofret_pheightlay_5_20=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z>5 & las_norm@data$Z<20)])/length(las_norm@data$Z))*100
         nofret_pheightlay_a20=(nrow(las_norm@data[(las_norm@data$Classification==1L & las_norm@data$Z>20)])/length(las_norm@data$Z))*100
         
         zmean= mean(las_norm_veg@data$Z)
