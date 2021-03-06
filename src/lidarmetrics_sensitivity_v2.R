@@ -59,7 +59,7 @@ for (i in Transect) {
         
         #writeLAS(las_clip,paste("Transect",i,"Tr_sec",butterflysp_df_sel$Tr_sec[j],"_clip_25.laz",sep=""))
         
-        las_norm=lasnormalize(las_clip, knnidw(k=10,p=2))
+        las_norm=lasnormalize(las_clip, knnidw(k=10,p=2),use_class=c(2L,9L,6L,1L))
         #las_norm_veg=lasfilter(las_norm,Classification==1L)
         las_norm_veg=lasfilter(las_norm,Classification==1L & Z>0.05)
         
